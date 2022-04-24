@@ -1,0 +1,106 @@
+.btn-default {
+  margin: 0.6rem  0;
+  max-width: 400px;
+  margin-bottom: 2rem;
+  padding: 0vmin 8vmin;
+  border-radius: var(--signature-radius);
+  margin-right: 1rem;
+  height: 5rem;
+  border: none;
+  letter-spacing: 0;
+  font-size: 1.5rem;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  transition: var(--trans);
+  font-weight: bolder;
+  color:black;
+  background: linear-gradient(45deg, #d5d5d5, #ffffff);
+   -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
+.btn-default:focus {
+  outline: none;
+   -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
+.btn-accent {
+  background: none;
+  border: 3px solid white;
+  color: white;
+}
+.btn-link {
+  background: none;
+}
+
+.btn-busy {
+  opacity: 0.4 !important;
+  pointer-events: none;
+}
+/* .btn-default:hover {
+  box-shadow: 2px 2px 3rem #3399ff;
+} */
+.btn-default .circles {
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  right: 0;
+  border-radius: 50%;
+  top: 0;
+  filter: blur(20px);
+  z-index: -2;
+  background-color: var(--accent);
+  animation: move-circle 5s linear infinite;
+}
+.btn-default .circles:first-child {
+  animation: move-circle-up 5s linear 2s infinite;
+}
+@keyframes move-circle-up {
+  from {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes move-circle {
+  from {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.btn-default .glass-pane {
+  overflow: hidden;
+  width: 110%;
+  border-radius: 20vmin;
+  height: 100%;
+  position: absolute;
+  left: -5%;
+  z-index: -1;
+  overflow: hidden;
+  top: 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .btn-default {
+    width: 100%;
+    min-width: 100%;
+    margin-right: 0rem;
+  }
+}
