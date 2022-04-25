@@ -5,7 +5,13 @@ import { useEffect } from "react";
 import { DB } from "../../firebaseConfig";
 import Dialog from "./Dialog";
 import { FabIcons } from "./Icons";
+import { clean } from "../Utils";
 
+export const BackArrow = ({ onClick }) => (
+  <button onClick={onClick} className="back-btn">
+    <span className="fas fa-chevron-left"></span>
+  </button>
+);
 export default function EditAccount({ account, isAdmin, user, onBack, onSave }) {
   const [name, setName] = useState();
   const [busy, setBusy] = useState();
@@ -15,21 +21,24 @@ export default function EditAccount({ account, isAdmin, user, onBack, onSave }) 
   const [dialog, setDialog] = useState();
 
   useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
     setName(account?.name);
     setDesc(account?.desc);
     setIcon(account?.icon);
     setLink(account?.link);
     if (!account?.icon) setDialog("icons");
+    
   }, [account]);
 
   const saveAccount = () => {
     setBusy(true);
     if (!icon) return;
     let account = {
-      icon,
-      desc,
-      name,
-      link,
+      icon: clean("icon", icon),
+      desc: clean("account.desc", desc),
+      name: clean("account.name", name),
+      link: clean("account.link", link),
       added: new Date().getTime(),
     };
     var usersUpdate = {};
@@ -55,6 +64,7 @@ export default function EditAccount({ account, isAdmin, user, onBack, onSave }) 
       });
   };
   const onSelectAccount = (icon) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setIcon(icon.icon);
     setName(icon.name);
     setDesc("My projects on " + (icon.name || "youtube page"));
@@ -62,7 +72,10 @@ export default function EditAccount({ account, isAdmin, user, onBack, onSave }) 
   };
   return (
     <div>
-      <h1>Edit Profile</h1>
+      <h1>
+        <BackArrow onClick={() => onBack()} />
+        Edit Account
+      </h1>
       <div style={{ paddingTop: "3rem" }}>
         <div>
           <div
@@ -96,7 +109,7 @@ export default function EditAccount({ account, isAdmin, user, onBack, onSave }) 
           />
           {!account?.added && (
             <button onClick={() => setDialog("icons")} className="header-btn">
-              {icon ? "Change Icon" : "Select Icon"}
+              {icon ? "Change Account" : "Select Account"}
             </button>
           )}
         </div>
@@ -130,6 +143,7 @@ export default function EditAccount({ account, isAdmin, user, onBack, onSave }) 
       <br />
       <Button
         busy={busy}
+        stickToBottom
         onClick={() => saveAccount()}
         disabled={!(link && name && desc && icon)}
       >
@@ -140,11 +154,13 @@ export default function EditAccount({ account, isAdmin, user, onBack, onSave }) 
           Delete Account
         </Button>
       )}
-      <Button accent busy={busy} onClick={() => onBack()}>
-        Back
-      </Button>
       <Dialog open={dialog === "icons"}>
-        <h1>Select Account</h1>
+        <h1>
+          <BackArrow
+            onClick={() => (account?.added ? onBack() : setDialog())}
+          />
+          Select Account
+        </h1>
         {FabIcons.map((icon, key) => (
           <button
             key={key}
@@ -162,9 +178,7 @@ export default function EditAccount({ account, isAdmin, user, onBack, onSave }) 
         <br />
         <br />
         <br />
-        <Button busy={busy} stickToBottom onClick={() => setDialog()}>
-          Cancel
-        </Button>
+        <br />
       </Dialog>
     </div>
   );

@@ -38,7 +38,10 @@ export function Profile({ isAdmin, user, onEdit, profile }) {
           </div>
         )}
       </div>
-      <div style={{ color: "white" }} className="unilink-container">
+      {isAdmin && <div style={{ color: "white" }} className="unilink-container">
+        <span className="chip">
+          UNILINK
+        </span>
         <a rel="noopener noreferrer" href={appPath + unilink} target={"_blank"}>
           {unilink}
         </a>
@@ -46,7 +49,7 @@ export function Profile({ isAdmin, user, onEdit, profile }) {
           className="fas fa-copy"
           onClick={() => copyTextToClipboard(appPath + unilink)}
         />
-      </div>
+      </div>}
     </div>
   );
 }
@@ -57,7 +60,24 @@ function Accounts({ accounts, user, isAdmin, onEdit }) {
     <div>
       <br />
       <br />
-      <h1>Accounts</h1>
+      {accounts &&
+        Object.values(accounts)?.filter((a) => a !== null).length !== 0 && (
+          <h1>Accounts</h1>
+        )}
+      {accounts &&
+        Object.values(accounts)?.filter((a) => a !== null).length === 0 && (
+          <div className="center">
+            <img src={logo} className={"logo-pic"} width={200} alt="xs" />
+            <h1>Link accounts</h1>
+            <p>
+              You can link more than 50+ different accounts, like Facebook,
+              Instagram, Spotity etc.
+            </p>
+            <p>
+              All accounts links will be access through your one special Unilink.
+            </p>
+          </div>
+        )}
       {accounts &&
         Object.keys(accounts).map((acc, k) => {
           if (accounts[acc] === null) return null;
@@ -91,9 +111,9 @@ function Accounts({ accounts, user, isAdmin, onEdit }) {
               </div>
             </div>
           );
-          return isAdmin ? <div>
-            {content}
-          </div> : (
+          return isAdmin ? (
+            <div>{content}</div>
+          ) : (
             <a
               className="account_link"
               href={accounts[acc]?.link}
@@ -108,7 +128,7 @@ function Accounts({ accounts, user, isAdmin, onEdit }) {
   );
 }
 
-export default function Dashboard({ isAdmin, user, unilink }) {
+export default function Dashboard({ isAdmin, user, unilink, onNav }) {
   const [editPage, setEditPage] = useState(null);
   const [editData, setEditData] = useState();
   const [userData, setUserData] = useState();
@@ -120,6 +140,7 @@ export default function Dashboard({ isAdmin, user, unilink }) {
   }, [unilink, user]);
 
   const fetchUserData = (unilink) => {
+    setBusy('fetching');
     DB.collection("user_data")
       .where("unilink", "==", unilink)
       .get()
@@ -133,13 +154,16 @@ export default function Dashboard({ isAdmin, user, unilink }) {
             setUserData(doc.data());
           });
         }
+        setBusy();
       })
       .catch((error) => {
         setError("invalid_unilink");
+        setBusy()
         // console.log("Error getting documents: ", error);
       });
   };
   const fetchUserDataByUID = (uid) => {
+    setBusy('fetching')
     DB.collection("user_data")
       .doc(uid)
       .get()
@@ -149,12 +173,13 @@ export default function Dashboard({ isAdmin, user, unilink }) {
         } else {
           
         }
+        setBusy(false);
       });
   };
 
   const createUserData = (uid) => {
     // console.log("createUserData", uid);
-    setBusy(true);
+    setBusy('creating');
     let profile = {
       name: user?.displayName,
       dp: user?.photoURL,
@@ -207,8 +232,8 @@ export default function Dashboard({ isAdmin, user, unilink }) {
             <p>Looks like this Unilink doesn't exists </p>
           </div>
 
-          <Button busy={busy} onClick={() => createUserData(user?.uid)}>
-            Create{" "}
+          <Button busy={busy} onClick={() => onNav("home")}>
+            Get Started with{" "}
             <span style={{ textTransform: "uppercase", letterSpacing: "1px" }}>
               Unilink
             </span>
@@ -228,9 +253,15 @@ export default function Dashboard({ isAdmin, user, unilink }) {
               <p>50+ accounts, one simple link.</p>
             </div>
           )}
-          {busy && (
+          {busy === "creating" && (
             <div>
               <h1>Creating...</h1>
+              <p>Sugar, Spice and everything wise.</p>
+            </div>
+          )}
+          {busy === "fetching" && (
+            <div>
+              <h1>Fetching...</h1>
               <p>Sugar, Spice and everything wise.</p>
             </div>
           )}

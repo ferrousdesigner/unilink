@@ -1,3 +1,5 @@
+var sanitizeUrl = require("@braintree/sanitize-url").sanitizeUrl;
+
 const fallbackCopyTextToClipboard = (text) => {
   var textArea = document.createElement("textarea");
   textArea.value = text;
@@ -20,7 +22,7 @@ const fallbackCopyTextToClipboard = (text) => {
   }
 
   document.body.removeChild(textArea);
-}
+};
 export const copyTextToClipboard = (text) => {
   if (!navigator.clipboard) {
     fallbackCopyTextToClipboard(text);
@@ -34,4 +36,29 @@ export const copyTextToClipboard = (text) => {
       console.error("Async: Could not copy text: ", err);
     }
   );
-}
+};
+
+const sanitizeString = (str) => {
+  str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
+  return str.trim();
+};
+export const clean = (type, val) => {
+  switch (type) {
+    case "icon":
+      return val;
+    case "account.name":
+      return sanitizeString(val);
+    case "account.desc":
+      return sanitizeString(val);
+    case "account.link":
+      return sanitizeUrl(val);
+    case "profile.name":
+      return sanitizeString(val);
+    case "profile.bio":
+      return sanitizeString(val);
+    case "profile.unilink":
+      return sanitizeUrl(val);
+    default:
+      break;
+  }
+};

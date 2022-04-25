@@ -6,6 +6,7 @@ import * as firebase from "firebase";
 export const SignIn = ({ onNav, onAuth, active, user }) => {
   const [busy, setBusy] = useState()
   const handleSignIn = () => {
+    setBusy(true);
      const provider = new firebase.auth.GoogleAuthProvider();
       firebase
          .auth()
@@ -13,14 +14,15 @@ export const SignIn = ({ onNav, onAuth, active, user }) => {
      };
      firebase.auth().onAuthStateChanged((user) => {
        onAuth(user);
+      //  setBusy(false);
      });
      
   // console.log(">>>>User", user);
   return (
     <div className='center'>
       <section>
-        <img src={logo} className='logo-pic' alt='xs'/>
-        <h1 className='logo-big'>UniLink</h1>
+        <img src={logo} className={busy ? 'logo-pic slow-spin' : 'logo-pic'} alt='xs'/>
+        <h1 className={'logo-big'}>UniLink</h1>
         <h3>One link for all your accounts</h3>
         <br />
       </section>

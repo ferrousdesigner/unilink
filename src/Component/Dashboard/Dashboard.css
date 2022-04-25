@@ -6,20 +6,22 @@
 }
 .flex {
   display: flex;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
 }
 .desc {
   padding-left: 2rem;
   padding-right: 3rem;
-  width: 100%;
+  width: 70%;
 }
 .fa-pen-to-square {
   cursor: pointer;
 }
 .input-wrapper {
   position: relative;
-  width: 100%;
+  padding:  0 1rem;
+  width: 80%;
   height: 100%;
   margin-bottom: 3rem;
 }
@@ -45,7 +47,7 @@
 .unilink-container {
   background: #424161;
   border-radius: 0 0 1rem 1rem;
-  padding: 1rem 2rem 1rem;
+  padding: 1.3rem 2rem 1rem;
   color: white !important;
   position: relative;
   display: flex;
@@ -56,6 +58,20 @@
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
+}
+.unilink-container .chip {
+  position: absolute;
+  left: 0rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  background: linear-gradient(45deg, white, #a7a7a7);
+  top: 0rem;
+  /* font-weight: 600; */
+  color: black;
+  transform: translateY(-50%);
+  box-shadow: -2px 3px 13px rgb(0 0 0 / 39%);
+  border-radius: 0 10px 10px 0px;
+  padding: 0 2rem;
 }
 .unilink-container .fas {
   width: 30px;
@@ -73,8 +89,9 @@
 }
 .card img {
   width: 6rem;
-  height: 6rem;
-  border-radius: 50%;
+    height: 6rem;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .account-card {
@@ -111,10 +128,10 @@ h1 {
 }
 
 .round-img {
- border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
 }
 fieldset {
   border: none;
@@ -204,7 +221,18 @@ a {
   -webkit-animation: fa-spin 6s infinite linear;
   animation: fa-spin 6s infinite linear;
 }
-
+.back-btn {
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  /* vertical-align: unset; */
+  border: none;
+  background: #00000059;
+  color: white;
+  font-size: 1.5rem;
+  margin-left: -1rem;
+  margin-right: 1rem;
+}
 .account-select-btn {
   background: transparent;
   width: 100%;
@@ -214,11 +242,18 @@ a {
   justify-content: flex-start;
   align-items: center;
   font-size: 2rem;
-  padding: 3rem 0;
+  padding: 3rem 1rem;
   border-bottom: 1px solid #333;
   text-align: center;
+  border-radius: 0rem;
   cursor: pointer;
   position: relative;
+  transition: all 0.1s ease;
+}
+.account-select-btn:active {
+  background-color: white;
+  color: black;
+  border-bottom: 1px solid transparent;
 }
 .account-select-btn span.fab {
   margin-right: 2rem;
@@ -227,7 +262,7 @@ a {
 .account-select-btn .fa-chevron-right {
   position: absolute;
   top: 50%;
-  right: 0rem;
+  right: 1rem;
   transform: translateY(-50%);
   color: #555;
 }

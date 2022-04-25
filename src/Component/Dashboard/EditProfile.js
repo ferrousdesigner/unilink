@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { DB } from "../../firebaseConfig";
+import { DB, storage } from "../../firebaseConfig";
 import Button from "../Button/Button";
+import { clean } from "../Utils";
+import { BackArrow } from './EditAccount';
 
 export default function EditProfile({ profile, onBack, user, onSave }) {
   const [name, setName] = useState();
+  const [busy, setBusy] = useState();
+  const [changed, setChanged] = useState();
   const [bio, setBio] = useState();
   const [status, showStatus] = useState();
-  const [uploading, setUploading] = useState()
-  const [file, setFile] = useState()
+  const [uploading, setUploading] = useState();
+  const [file, setFile] = useState();
   const [isAvail, setIsAvail] = useState();
   const [unilink, setUnilink] = useState();
   const [dp, setDp] = useState();
@@ -16,7 +20,7 @@ export default function EditProfile({ profile, onBack, user, onSave }) {
     setBio(profile?.bio);
     setUnilink(profile?.unilink);
     setDp(profile?.dp);
-  }, [profile]);
+  }, [profile, dp]);
   const validateUniLink = () => {
     DB.collection("taken_links")
       .doc("links_array")
@@ -27,7 +31,7 @@ export default function EditProfile({ profile, onBack, user, onSave }) {
           let taken = doc.data();
           let newLinks = [...taken?.links];
           if (newLinks.includes(unilink)) {
-            setIsAvail(false)
+            setIsAvail(false);
           } else {
             setIsAvail("avail");
           }
@@ -35,35 +39,73 @@ export default function EditProfile({ profile, onBack, user, onSave }) {
       });
   };
   const saveProfile = () => {
+    setBusy(true)
     DB.collection("user_data")
       .doc(user?.uid)
       .update({
-        name,
-        bio,
-        unilink,
+        name: clean("profile.name", name),
+        bio: clean("profile.bio", bio),
+        unilink: clean("profile.unilink", unilink),
         dp,
       })
-      .then(() => onSave());
+      .then(() => {
+        setBusy();
+        onSave()});
   };
   const uploadFile = () => {
-    setUploading(true)
+    setUploading(true);
+    var name = new Date().getTime() + "-" + file.name;
+    // make ref to your firebase storage and select images folder
+    var storageRef = storage.ref(`user_dps/${name}`);
+    // put file to Firebase
+    var uploadTask = storageRef.put(file);
 
-  }
+    uploadTask.on(
+      "state_changed",
+      () => {},
+      (err) => console.log(err),
+      async () => {
+        let backgroundURL = await uploadTask.snapshot.ref.getDownloadURL();
+        console.log("backgroundURL", backgroundURL);
+        setFile(null);
+        setUploading(false);
+        DB.collection("user_data")
+          .doc(user?.uid)
+          .update({
+            dp: backgroundURL,
+          })
+          .then(() => onSave());
+      }
+    );
+  };
   const getURLFromFile = (file) => {
     const objectURL = URL.createObjectURL(file);
-    return objectURL
-  }
+    return objectURL;
+  };
   return (
     <div>
-      <h1>Edit Profile</h1>
-      <div className="flex" style={{ paddingTop: "3rem", opacity: uploading ? '0.4' : '', pointerEvents: uploading ? 'none' : '' }}>
+      <h1>
+        <BackArrow onClick={() => onBack()} />
+        Edit Profile
+      </h1>
+      <div
+        className="flex"
+        style={{
+          paddingTop: "3rem",
+          opacity: uploading ? "0.4" : "",
+          pointerEvents: uploading ? "none" : "",
+        }}
+      >
         <img
           src={file ? getURLFromFile(file) : dp}
           alt="x"
           className="round-img"
           width={140}
         />
-        <div className="flex" style={{ flexDirection: "column" }}>
+        <div
+          className="flex"
+          style={{ flexDirection: "column", padding: "1rem" }}
+        >
           {!file && (
             <div className="input-wrapper">
               <input
@@ -71,7 +113,10 @@ export default function EditProfile({ profile, onBack, user, onSave }) {
                 onInput={(e) => setFile(e.target.files[0])}
                 accept="image/png, image/jpeg"
               />
-              <button className="header-btn" style={{ width: 180 }}>
+              <button
+                className="header-btn"
+                style={{ width: 170, paddingLeft: 20 }}
+              >
                 Update
               </button>
             </div>
@@ -80,20 +125,22 @@ export default function EditProfile({ profile, onBack, user, onSave }) {
             <button
               className="header-btn"
               onClick={() => uploadFile()}
-              style={{ width: 180 }}
+              style={{ width: 170, paddingLeft: 20 }}
             >
               Upload
             </button>
           )}
 
           <br />
-          <button
-            className="header-btn-alt"
-            onClick={() => setFile()}
-            style={{ width: 180 }}
-          >
-            Remove
-          </button>
+          {file && (
+            <button
+              className="header-btn-alt"
+              onClick={() => setFile()}
+              style={{ width: 170, paddingLeft: 20 }}
+            >
+              Remove
+            </button>
+          )}
         </div>
       </div>
       <fieldset>
@@ -110,6 +157,7 @@ export default function EditProfile({ profile, onBack, user, onSave }) {
           value={unilink}
           onBlur={() => validateUniLink()}
           onChange={(e) => {
+            setChanged(true);
             setIsAvail("check");
             showStatus(true);
             setUnilink(e.target.value);
@@ -144,12 +192,17 @@ export default function EditProfile({ profile, onBack, user, onSave }) {
       <br />
       <Button
         onClick={() => saveProfile()}
-        disabled={!(name && unilink && isAvail && bio)}
+        busy={busy}
+        disabled={
+          !(
+            name &&
+            ((changed && unilink && isAvail === 'avail') ||
+              (!changed && unilink)) &&
+            bio
+          )
+        }
       >
         Save
-      </Button>
-      <Button accent onClick={() => onBack()}>
-        Back
       </Button>
     </div>
   );
