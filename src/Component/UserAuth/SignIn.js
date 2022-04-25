@@ -22,7 +22,7 @@ export const SignIn = ({ onNav, onAuth, active, user }) => {
     <div className='center'>
       <section>
         <img src={logo} className={busy ? 'logo-pic slow-spin' : 'logo-pic'} alt='xs'/>
-        <h1 className={'logo-big'}>UniLink</h1>
+        <h1 className={'logo-big'}>PrimaFacie</h1>
         <h3>One link for all your accounts</h3>
         <br />
       </section>

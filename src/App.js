@@ -81,10 +81,10 @@ function App() {
             auth.signOut();
           }}
         />
-        <Smoother active={path === "busy"}>
+        <Smoother active={path === "busy"} deep>
           <Loader />
         </Smoother>
-        <Smoother active={path === "home"}>
+        <Smoother active={path === "home"} deep>
           <SignIn
             active={path === "home"}
             onNav={setPath}
@@ -95,10 +95,10 @@ function App() {
             }}
           />
         </Smoother>
-        <Smoother active={path === "dashboard"}>
+        <Smoother active={path === "dashboard"} deep>
           <Dashboard user={user} onNav={setPath} isAdmin={user} />
         </Smoother>
-        <Smoother active={path === "unilink"}>
+        <Smoother active={path === "unilink"} deep>
           <Dashboard unilink={unilink} onNav={setPath} />
         </Smoother>
       </div>

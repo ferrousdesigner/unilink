@@ -2,13 +2,13 @@
 import * as firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBPF02xqSgUF9JG12tdse_8V_dpSRebgpM",
-  authDomain: "unilink-app.firebaseapp.com",
-  projectId: "unilink-app",
-  storageBucket: "unilink-app.appspot.com",
-  messagingSenderId: "841259281737",
-  appId: "1:841259281737:web:f32180d38c07ed2319fe98",
-  measurementId: "G-DSQXE3LQJV",
+  apiKey: "AIzaSyAtNAyKvS8bYAx1tXDCsm5Tis6dvb85FF8",
+  authDomain: "primafacie-app.firebaseapp.com",
+  projectId: "primafacie-app",
+  storageBucket: "primafacie-app.appspot.com",
+  messagingSenderId: "844779233805",
+  appId: "1:844779233805:web:af955b5c1c93d910b56b44",
+  measurementId: "G-PSZRCF6TPB",
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);

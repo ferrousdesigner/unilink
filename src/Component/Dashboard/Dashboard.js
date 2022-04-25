@@ -8,19 +8,34 @@ import EditAccount from "./EditAccount";
 import EditProfile from "./EditProfile";
 import logo from "../../images/unilink.png";
 import { copyTextToClipboard } from "../Utils";
+import QRCode from "qrcode.react";
+
 const appPath =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000/"
-    : "https://www.google.com/";
+    : "https://unilink-app.web.app/";
 
 export function Profile({ isAdmin, user, onEdit, profile }) {
-  // const profile = {
-  //   name: "Ferous designer",
-  //   bio: "I'm a developer in lucknow base of react js",
-  //   unilink: "/ferrousdesigner",
-  //   dp: user?.photoURL,
-  // };
   const { name, bio, dp, unilink } = profile || {};
+  const onShare = () => {
+    navigator
+      .share({
+        // Title that occurs over
+        // web share dialog
+        title: `Here is ${name}'s UniLink`,
+
+        // URL to share
+        url: appPath + unilink,
+      })
+      .then(() => {
+        console.log("Thanks for sharing!");
+      })
+      .catch((err) => {
+        // Handle errors, if occured
+        console.log("Error while using Web share API:");
+        console.log(err);
+      });
+  };
   return (
     <div>
       <div className="card flex" style={{ borderRadius: "1rem 1rem 0 0" }}>
@@ -38,18 +53,55 @@ export function Profile({ isAdmin, user, onEdit, profile }) {
           </div>
         )}
       </div>
-      {isAdmin && <div style={{ color: "white" }} className="unilink-container">
-        <span className="chip">
-          UNILINK
-        </span>
-        <a rel="noopener noreferrer" href={appPath + unilink} target={"_blank"}>
-          {unilink}
-        </a>
-        <span
-          className="fas fa-copy"
-          onClick={() => copyTextToClipboard(appPath + unilink)}
-        />
-      </div>}
+      {isAdmin && (
+        <div style={{ color: "white" }} className="unilink-container">
+          <span className="chip">Primafacie</span>
+          <div>
+            <a
+              rel="noopener noreferrer"
+              href={appPath + unilink}
+              target={"_blank"}
+            >
+              {unilink}
+            </a>
+            {navigator.share ? (
+              <span className="fas fa-share" onClick={onShare} />
+            ) : (
+              <span
+                className="fas fa-copy"
+                onClick={() => copyTextToClipboard(appPath + unilink)}
+              />
+            )}
+          </div>
+
+          <div>
+            <div className="flex" style={{marginTop: '1rem', alignItems: 'flex-start'}}>
+              <div>
+                <ul
+                  style={{
+                    fontSize: "10px",
+                    paddingRight: "10px",
+                    paddingLeft: 10
+                  }}
+                >
+                  <li>You can share this primafacie link to anyone</li>
+                  <li>
+                    All your account added below will be available with this
+                    single link
+                  </li>
+                </ul>
+              </div>
+              {user && (
+                <QRCode
+                  bgColor={"#00000000"}
+                  fgColor={"white"}
+                  value={appPath + unilink}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -183,7 +235,7 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
     let profile = {
       name: user?.displayName,
       dp: user?.photoURL,
-      bio: "I'am using unilink",
+      bio: "I'am using Primafacie",
       unilink: user.email,
     };
 
@@ -229,13 +281,13 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
           />
           <div>
             <h1>Oops...</h1>
-            <p>Looks like this Unilink doesn't exists </p>
+            <p>Looks like this primafacie doesn't exists </p>
           </div>
 
           <Button busy={busy} onClick={() => onNav("home")}>
             Get Started with{" "}
             <span style={{ textTransform: "uppercase", letterSpacing: "1px" }}>
-              Unilink
+              Primafacie
             </span>
           </Button>
         </div>
@@ -249,7 +301,7 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
           />
           {!busy && (
             <div>
-              <h1>Create your UniLink</h1>
+              <h1>Create your Primafacie</h1>
               <p>50+ accounts, one simple link.</p>
             </div>
           )}
@@ -269,7 +321,7 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
           <Button busy={busy} onClick={() => createUserData(user?.uid)}>
             Create{" "}
             <span style={{ textTransform: "uppercase", letterSpacing: "1px" }}>
-              Unilink
+              Primafacie
             </span>
           </Button>
         </div>

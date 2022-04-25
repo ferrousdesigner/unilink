@@ -18,6 +18,7 @@ export default function Button({
         left: "50%",
         transform: "translateX(-50%)",
         width: "80vw",
+        zIndex: 2000
       }
     : {};
 

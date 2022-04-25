@@ -14,6 +14,7 @@
 .header-btn {
   background: white;
   cursor: pointer;
+  color: black;
   border: none;
   padding: 3px 1rem;
   font-weight: bold;

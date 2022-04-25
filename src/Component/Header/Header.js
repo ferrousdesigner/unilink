@@ -9,7 +9,7 @@ function Header({ user, signOut, onNav, path }) {
   return (
     <div className="header">
       <span className="logo" onClick={() => onNav(user ? "dashboard" : "home")}>
-        UniLink
+        Primafacie
       </span>
       <div>
         {/* {user && <button className="header-btn">Back</button>} */}
