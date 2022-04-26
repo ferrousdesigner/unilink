@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import Button from "../Button/Button";
 import { DB } from "../../firebaseConfig";
-import { Smoother } from "../../App";
+import { Loader, Smoother } from "../../App";
 import Dialog from "./Dialog";
 import EditAccount from "./EditAccount";
 import EditProfile from "./EditProfile";
@@ -13,7 +13,7 @@ import QRCode from "qrcode.react";
 const appPath =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000/"
-    : "https://unilink-app.web.app/";
+    : window.location.href;
 
 export function Profile({ isAdmin, user, onEdit, profile }) {
   const { name, bio, dp, unilink } = profile || {};
@@ -22,7 +22,7 @@ export function Profile({ isAdmin, user, onEdit, profile }) {
       .share({
         // Title that occurs over
         // web share dialog
-        title: `Here is ${name}'s UniLink`,
+        title: `Here is ${name}'s lynkone`,
 
         // URL to share
         url: appPath + unilink,
@@ -38,7 +38,13 @@ export function Profile({ isAdmin, user, onEdit, profile }) {
   };
   return (
     <div>
-      <div className="card flex" style={{ borderRadius: "1rem 1rem 0 0" }}>
+      <div
+        className="card flex"
+        style={{
+          borderRadius: isAdmin ? "1rem 1rem 0 0" : "1rem",
+          backgroundImage: "linear-gradient(45deg, #1b1b1b, #4843652e)",
+        }}
+      >
         <img src={dp} alt="dp" />
         <div className="desc">
           <h3>{name}</h3>
@@ -55,7 +61,7 @@ export function Profile({ isAdmin, user, onEdit, profile }) {
       </div>
       {isAdmin && (
         <div style={{ color: "white" }} className="unilink-container">
-          <span className="chip">Primafacie</span>
+          <span className="chip">lynkone</span>
           <div>
             <a
               rel="noopener noreferrer"
@@ -75,16 +81,19 @@ export function Profile({ isAdmin, user, onEdit, profile }) {
           </div>
 
           <div>
-            <div className="flex" style={{marginTop: '1rem', alignItems: 'flex-start'}}>
+            <div
+              className="flex"
+              style={{ marginTop: "1rem", alignItems: "flex-start" }}
+            >
               <div>
                 <ul
                   style={{
                     fontSize: "10px",
                     paddingRight: "10px",
-                    paddingLeft: 10
+                    paddingLeft: 10,
                   }}
                 >
-                  <li>You can share this primafacie link to anyone</li>
+                  <li>You can share this lynkone link to anyone</li>
                   <li>
                     All your account added below will be available with this
                     single link
@@ -180,7 +189,7 @@ function Accounts({ accounts, user, isAdmin, onEdit }) {
   );
 }
 
-export default function Dashboard({ isAdmin, user, unilink, onNav }) {
+export default function Dashboard({ isAdmin, user, unilink, onNav, onSetBusy, appBusy }) {
   const [editPage, setEditPage] = useState(null);
   const [editData, setEditData] = useState();
   const [userData, setUserData] = useState();
@@ -204,11 +213,13 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
             // doc.data() is never undefined for query doc snapshots
             // console.log(doc.id, " => ", doc.data());
             setUserData(doc.data());
+            onSetBusy();
           });
         }
         setBusy();
       })
       .catch((error) => {
+        onSetBusy();
         setError("invalid_unilink");
         setBusy()
         // console.log("Error getting documents: ", error);
@@ -222,10 +233,12 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
       .then((doc) => {
         if (doc.exists) {
           setUserData(doc.data());
+          
         } else {
           
         }
         setBusy(false);
+         onSetBusy();
       });
   };
 
@@ -235,7 +248,7 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
     let profile = {
       name: user?.displayName,
       dp: user?.photoURL,
-      bio: "I'am using Primafacie",
+      bio: "I'am using lynkone",
       unilink: user.email,
     };
 
@@ -271,7 +284,7 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
   };
   // console.log("userData", userData);
   return (
-    <div style={{ maxWidth: 400, margin: "0 auto" }}>
+    <div style={{ maxWidth: 500, margin: "0 auto" }}>
       {error === "invalid_unilink" && (
         <div className="center">
           <img
@@ -281,13 +294,13 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
           />
           <div>
             <h1>Oops...</h1>
-            <p>Looks like this primafacie doesn't exists </p>
+            <p>Looks like this lynkone doesn't exists </p>
           </div>
 
           <Button busy={busy} onClick={() => onNav("home")}>
             Get Started with{" "}
             <span style={{ textTransform: "uppercase", letterSpacing: "1px" }}>
-              Primafacie
+              lynkone
             </span>
           </Button>
         </div>
@@ -301,7 +314,7 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
           />
           {!busy && (
             <div>
-              <h1>Create your Primafacie</h1>
+              <h1>Create your lynkone</h1>
               <p>50+ accounts, one simple link.</p>
             </div>
           )}
@@ -321,11 +334,13 @@ export default function Dashboard({ isAdmin, user, unilink, onNav }) {
           <Button busy={busy} onClick={() => createUserData(user?.uid)}>
             Create{" "}
             <span style={{ textTransform: "uppercase", letterSpacing: "1px" }}>
-              Primafacie
+              lynkone
             </span>
           </Button>
         </div>
       )}
+      {appBusy && <Loader title='Just a moment...' />}
+      {/* <span className={appBusy ? 'fas fa-circle-notch fa-spin' : ''} /> */}
       {userData && (
         <Profile
           user={user}

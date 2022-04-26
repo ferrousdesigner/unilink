@@ -12,7 +12,7 @@
 }
 .desc {
   padding-left: 2rem;
-  padding-right: 3rem;
+  padding-right: 2rem;
   width: 70%;
 }
 .fa-pen-to-square {
@@ -20,7 +20,7 @@
 }
 .input-wrapper {
   position: relative;
-  padding:  0 1rem;
+  padding: 0 1rem;
   width: 80%;
   height: 100%;
   margin-bottom: 3rem;
@@ -50,15 +50,15 @@
   margin-top: 1rem !important; */
 }
 .unilink-container {
- background: #424161;
-    border-radius: 0 0 1rem 1rem;
-    padding: 2rem 2rem 2rem;
-    color: white !important;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
+  background: #424161;
+  border-radius: 0 0 1rem 1rem;
+  padding: 2rem 2rem 2rem;
+  color: white !important;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 }
 .unilink-container a {
   color: white;
@@ -96,9 +96,9 @@
 }
 .card img {
   width: 6rem;
-    height: 6rem;
-    border-radius: 50%;
-    object-fit: cover;
+  height: 6rem;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .account-card {
@@ -273,4 +273,12 @@ a {
   right: 1rem;
   transform: translateY(-50%);
   color: #555;
+}
+
+@media only screen and (max-width: 600px) {
+  .desc {
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    width: 90%;
+  }
 }

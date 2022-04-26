@@ -25,8 +25,9 @@
   
 }
 html {
-background-image: var(--background-gradient);
-}
+background-color: #000000;
+background-image: url("https://www.transparenttextures.com/patterns/dark-denim.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */}
 body {
   overflow-x: hidden;
   overflow-y: auto;

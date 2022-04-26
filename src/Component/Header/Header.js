@@ -9,7 +9,7 @@ function Header({ user, signOut, onNav, path }) {
   return (
     <div className="header">
       <span className="logo" onClick={() => onNav(user ? "dashboard" : "home")}>
-        Primafacie
+        lynkone
       </span>
       <div>
         {/* {user && <button className="header-btn">Back</button>} */}
@@ -26,12 +26,12 @@ function Header({ user, signOut, onNav, path }) {
         {!user && path === "unilink" && (
           <button
             className="header-btn"
-            onClick={() => realNav("https://unilink-app.web.app")}
+            onClick={() => realNav("https://lynkone.me")}
           >
             Learn More
           </button>
         )}
-        {!user && path !== "unilink" && (
+        {!user && path !== "unilink" && path !== 'home' && (
           <button
             className="header-btn"
             onClick={() => onNav("home")}

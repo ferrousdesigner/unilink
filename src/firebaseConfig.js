@@ -2,13 +2,13 @@
 import * as firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAtNAyKvS8bYAx1tXDCsm5Tis6dvb85FF8",
-  authDomain: "primafacie-app.firebaseapp.com",
-  projectId: "primafacie-app",
-  storageBucket: "primafacie-app.appspot.com",
-  messagingSenderId: "844779233805",
-  appId: "1:844779233805:web:af955b5c1c93d910b56b44",
-  measurementId: "G-PSZRCF6TPB",
+  apiKey: "AIzaSyC7D26uhTYUIO7nqA9LLg7NGbs4HXxyGho",
+  authDomain: "lynkone-me.firebaseapp.com",
+  projectId: "lynkone-me",
+  storageBucket: "lynkone-me.appspot.com",
+  messagingSenderId: "880655007489",
+  appId: "1:880655007489:web:7aa56a01ccd8516dd3e500",
+  measurementId: "G-GEHYCGCG44",
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);

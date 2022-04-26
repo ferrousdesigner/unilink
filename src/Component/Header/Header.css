@@ -1,13 +1,12 @@
 .header {
   position: fixed;
-  left: 0t;
   left: 0;
   top: 0;
   /* background: white; */
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1.6rem;
   z-index: 111;
   backdrop-filter: blur(2rem);
 }
@@ -54,4 +53,14 @@
 .logo-pic {
   max-height: 53vh;
   margin-bottom: 5rem;
+  max-width: 500px;
+}
+
+@media only screen and (max-width: 500) {
+  .logo-pic {
+  max-height: 53vh;
+  margin-bottom: 5rem;
+  max-width: 100%;
+}
+  
 }

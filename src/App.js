@@ -12,12 +12,12 @@ export const Smoother = ({ active, children, deep }) => (
   </div>
 );
 
-export const Loader = () => {
+export const Loader = ({title}) => {
   return (
     <div className="center">
       <section>
         <img src={logo} className="logo-pic slow-spin" alt="xs" />
-        <h1 className="logo-big">Getting ready</h1>
+        <h1 className="logo-big">{title || 'Getting ready'}</h1>
         <h3>Please wait while we get things ready.</h3>
         <br />
       </section>
@@ -29,6 +29,7 @@ export const Logo = () => <img src={logo} className="logo-pic" width="100px" />;
 
 function App() {
   const [path, setPathFinal] = useState("busy");
+  const [busy, setBusy ]= useState()
   const [user, setUser] = useState();
   const [unilink, setUnilink] = useState();
   const setPath = (p) => {
@@ -44,13 +45,13 @@ function App() {
       // setBusy();
       // setPath("home");
     }
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        // setTimeout(() => setPath("home"), 1000);
-      }
-    });
+    // auth.onAuthStateChanged((user) => {
+    //   if (user) {
+    //     setUser(user);
+    //   } else {
+    //     // setTimeout(() => setPath("home"), 1000);
+    //   }
+    // });
     processUniLink();
   }, [user]);
 
@@ -58,6 +59,7 @@ function App() {
     let pathname = window.location.pathname;
     // console.log("PathName", pathname);
     if (pathname.includes("/") && pathname.split("/").length === 2) {
+      setBusy(true);
       let p = pathname.split("/").reverse()[0];
       if (p !== "") {
         setUnilink(p);
@@ -66,6 +68,7 @@ function App() {
         user ? setPath('dashboard' ) :setPath("home");
       }
     } else {
+      setBusy(false);
       setPath("home");
     }
   };
@@ -89,6 +92,7 @@ function App() {
             active={path === "home"}
             onNav={setPath}
             user={user}
+            onBusy={(b) => setPath(b ? "busy" : "home")}
             onAuth={(user) => {
               // console.log(user);
               setUser(user);
@@ -96,10 +100,20 @@ function App() {
           />
         </Smoother>
         <Smoother active={path === "dashboard"} deep>
-          <Dashboard user={user} onNav={setPath} isAdmin={user} />
+          <Dashboard
+            user={user}
+            onNav={setPath}
+            isAdmin={user}
+            onSetBusy={setBusy}
+          />
         </Smoother>
         <Smoother active={path === "unilink"} deep>
-          <Dashboard unilink={unilink} onNav={setPath} />
+          <Dashboard
+            unilink={unilink}
+            onNav={setPath}
+            onSetBusy={setBusy}
+            appBusy={busy}
+          />
         </Smoother>
       </div>
 

@@ -152,7 +152,7 @@ export default function EditProfile({ profile, onBack, user, onSave }) {
         <input value={bio} onChange={(e) => setBio(e.target.value)} />
       </fieldset>
       <fieldset>
-        <label>Primafacie Link</label>
+        <label>lynkone Link</label>
         <input
           value={unilink}
           onBlur={() => validateUniLink()}
