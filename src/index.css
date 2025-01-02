@@ -16,23 +16,27 @@
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;600&display=swap");
+
 * {
   font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
   line-height: 1.5;
   box-sizing: border-box;
-  
+
 }
+
 html {
-background-color: #000000;
-background-image: url("https://www.transparenttextures.com/patterns/dark-denim.png");
-/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */}
+  background-color: #000000;
+  background-image: url("https://www.transparenttextures.com/patterns/dark-denim.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+
 body {
   overflow-x: hidden;
   overflow-y: auto;
   background-color: transparent;
-  min-height: 104vh;
+  min-height: 100vh;
   color: var(--font);
   padding: 10vh 0em;
   font-size: 1.2rem;
@@ -54,6 +58,7 @@ h1 {
   font-weight: 900;
   color: #fff;
 }
+
 h3 {
   font-weight: 300;
   margin-bottom: 1rem;
@@ -81,7 +86,8 @@ label {
   display: block;
 }
 
-input, select {
+input,
+select {
   background: transparent;
   width: 100%;
   border: 2px solid var(--border-color);
@@ -93,11 +99,15 @@ input, select {
   padding: 0 1rem;
   transition: var(--trans-quick);
 }
-input:focus, select:focus {
+
+input:focus,
+select:focus {
   outline: none;
   border-color: var(--accent);
 }
-input:disabled, select:disabled {
+
+input:disabled,
+select:disabled {
   opacity: 0.5;
 }
 
@@ -110,10 +120,12 @@ input::-ms-input-placeholder {
 .countrycode-container {
   display: flex;
 }
+
 .countrycode-container select {
   flex: 1;
   margin-right: 1rem;
 }
+
 .countrycode-container input {
   flex: 2;
 }
@@ -129,6 +141,7 @@ input::-ms-input-placeholder {
   overflow-x: hidden;
   width: 100%;
 }
+
 .smooth-show {
   transform: scale(1);
   opacity: 1;
@@ -146,6 +159,7 @@ input::-ms-input-placeholder {
     opacity: 0;
     transform: translateY(2rem);
   }
+
   to {
     opacity: 1;
     transform: translateY(0rem);
@@ -159,24 +173,31 @@ input::-ms-input-placeholder {
 .smooth-show section:nth-child(2) {
   animation-delay: 0.6s;
 }
+
 .smooth-show section:nth-child(3) {
   animation-delay: 0.9s;
 }
+
 .smooth-show section:nth-child(4) {
   animation-delay: 1.2s;
 }
+
 .smooth-show section:nth-child(5) {
   animation-delay: 1.5s;
 }
+
 .smooth-show section:nth-child(6) {
   animation-delay: 1.8s;
 }
+
 .smooth-show section:nth-child(7) {
   animation-delay: 2.1s;
 }
+
 .smooth-show section:nth-child(8) {
   animation-delay: 2.4s;
 }
+
 .smooth-show section:nth-child(9) {
   animation-delay: 2.6s;
 }

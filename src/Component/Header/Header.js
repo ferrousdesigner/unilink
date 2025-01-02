@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import './Header.css'
+import "./Header.css";
 
 function Header({ user, signOut, onNav, path }) {
   const realNav = (path) => {
-    window.location.href = path
-  }
+    window.location.href = path;
+  };
   return (
     <div className="header">
       <span className="logo" onClick={() => onNav(user ? "dashboard" : "home")}>
@@ -31,11 +31,8 @@ function Header({ user, signOut, onNav, path }) {
             Learn More
           </button>
         )}
-        {!user && path !== "unilink" && path !== 'home' && (
-          <button
-            className="header-btn"
-            onClick={() => onNav("home")}
-          >
+        {!user && path !== "unilink" && path !== "home" && (
+          <button className="header-btn" onClick={() => onNav("home")}>
             Sign In
           </button>
         )}
